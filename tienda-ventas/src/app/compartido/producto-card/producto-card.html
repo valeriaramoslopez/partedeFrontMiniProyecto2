@@ -2,26 +2,26 @@
     <div class="card-cover">
         <img
             [src]="producto.imagen"
-            [alt]="producto.titulo"
+            [alt]="producto.nombre"
             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
         />
-        <div class="card-imagen">IMG</div>
+        <div class="card-imagen"></div>
     </div>
     <div class="card-info">
-        <span class="card-genero" [ngClass]="'genero-' + producto.genero.toLowerCase()">
-            {{ producto.genero }}
+        <span class="card-genero" [ngClass]="'genero-' + (producto.categoria || '').toLowerCase()">
+            {{ producto.categoria }}
         </span>
-        <h3>{{ producto.titulo }}</h3>
-        <p>{{ producto.autor }} · Vol. {{ producto.volumen }}</p>
+        <h3>{{ producto.nombre }}</h3>
+        <p>{{ producto.editorial }} · Vol. {{ producto.tomo }}</p>
         <span class="precio">{{ producto.precio | currency:'MXN':'symbol':'1.0-0' }}</span>
         <div class="card-footer">
             <a [routerLink]="['/detalles', producto.id]" class="btn-small">Ver Más</a>
             <button
                 class="btn-small btn-carrito"
                 (click)="onAgregarCarrito()"
-                [disabled]="producto.disponible===0"
-                [ngClass]="{'agregado': agregadoId===producto.id}">
-                {{agregadoId===producto.id?'Agregado':'Agregar'}}
+                [disabled]="producto.disponible === 0"
+                [ngClass]="{'agregado': agregado}">
+                {{ agregado ? 'Agregado' : 'Agregar' }}
             </button>
         </div>
     </div>

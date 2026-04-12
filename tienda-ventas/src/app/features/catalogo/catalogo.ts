@@ -17,22 +17,34 @@ export class Catalogo implements OnInit {
 
   productos: Producto[] = [];
   productosFiltrados: Producto[] = [];
-  generos: string[]=[];
-  generoSeleccionado: string='Todos';
+  generos: string[] = [];
+  generoSeleccionado: string = 'Todos';
   agregadoId: number | null = null;
+  cargando = true;
+  error = false;
 
   ngOnInit() {
-    this.productos = this.productoService.getProductos();
-    this.productosFiltrados=this.productos;
-    this.generos=['Todos', ...new Set(this.productos.map(p=>p.genero))];
+    this.productoService.getProductos().subscribe({
+      next: (data) => {
+        this.productos = data;
+        this.productosFiltrados = data;
+        this.generos = ['Todos', ...new Set(data.map(p => p.categoria))];
+        this.cargando = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar productos:', err);
+        this.error = true;
+        this.cargando = false;
+      }
+    });
   }
 
-  filtrarPorGenero(genero: string){
-    this.generoSeleccionado=genero;
-    if(genero=='Todos'){
-      this.productosFiltrados=this.productos;
-    }else{
-      this.productosFiltrados=this.productos.filter(p=>p.genero===genero);
+  filtrarPorGenero(genero: string) {
+    this.generoSeleccionado = genero;
+    if (genero === 'Todos') {
+      this.productosFiltrados = this.productos;
+    } else {
+      this.productosFiltrados = this.productos.filter(p => p.categoria === genero);
     }
   }
 

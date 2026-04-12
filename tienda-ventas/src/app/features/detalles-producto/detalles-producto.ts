@@ -22,7 +22,13 @@ export class DetallesProducto implements OnInit {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.producto = this.productoService.getProductoPorId(id);
+    this.productoService.getProductoById(id).subscribe({
+      next: (data) => this.producto = data,
+      error: (err) => {
+        console.error('Error al cargar producto:', err);
+        this.producto = undefined;
+      }
+    });
   }
 
   agregarAlCarrito() {

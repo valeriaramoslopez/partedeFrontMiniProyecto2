@@ -1,13 +1,12 @@
 export interface Producto {
   id: number;
-  titulo: string;
-  autor: string;
-  marca: string;
+  nombre: string;
+  categoria: string;
+  editorial: string;
+  tomo: number;
   precio: number;
   stock: number;
-  disponible: number;
-  volumen: number;
-  genero: string;
   imagen: string;
   descripcion: string;
+  disponible: number; 
 }
